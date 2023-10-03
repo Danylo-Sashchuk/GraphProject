@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'minitest/autorun'
-require_relative '../node'
+require_relative '../model/node'
 
 class TestNode < Minitest::Unit::TestCase
   attr_reader :node

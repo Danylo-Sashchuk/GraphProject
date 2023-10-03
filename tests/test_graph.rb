@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'minitest/autorun'
-require_relative '../graph'
+require_relative '../model/graph'
 
 class TestGraph < Minitest::Unit::TestCase
   attr_reader :graph
