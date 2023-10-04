@@ -3,7 +3,7 @@
 require_relative 'node'
 
 class Graph
-  attr_reader :nodes
+  attr_reader :nodes, :edges
 
   def initialize
     @nodes = []
@@ -29,5 +29,17 @@ class Graph
 
   def nbr_nodes
     @nodes.size
+  end
+
+  def add_edge(node_a, node_b)
+    edges << Edge.new(node_a, node_b)
+  end
+
+  def get_edges
+    @edges
+  end
+
+  def nbr_edges
+    @edges.size
   end
 end
