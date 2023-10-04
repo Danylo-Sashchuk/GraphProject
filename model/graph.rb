@@ -26,4 +26,8 @@ class Graph
     nodes.each { |node| output << node.name }
     output
   end
+
+  def nbr_nodes
+    @nodes.size
+  end
 end
