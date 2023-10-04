@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'node'
 
 class Graph
@@ -8,8 +9,12 @@ class Graph
     @nodes = []
   end
 
-  def add_node(name)
-    @nodes << Node.new(name)
+  def add_node(node)
+    @nodes << if node.is_a?(Node)
+                node
+              else
+                Node.new(node)
+              end
   end
 
   def add_nodes(*nodes)
