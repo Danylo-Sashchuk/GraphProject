@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'node'
 
 class Edge
   attr_reader :node_a, :node_b

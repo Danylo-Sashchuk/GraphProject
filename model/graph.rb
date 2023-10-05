@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'node'
+require_relative 'edge'
 
 class Graph
   attr_reader :nodes, :edges
 
   def initialize
     @nodes = []
+    @edges = []
   end
 
   def add_node(node)
