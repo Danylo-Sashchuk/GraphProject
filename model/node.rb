@@ -14,7 +14,7 @@ class Node
   end
 
   def ==(other)
-    @name == other.name
+    other.is_a?(Node) && @name == other.name
   end
 
   def hash

@@ -9,23 +9,27 @@ class Edge
   def initialize(node_a, node_b)
     @nodes = Set.new
     [node_a, node_b].each do |node|
-      if node.is_a?(Symbol)
-        @nodes << Node.new(node)
-      elsif node.is_a?(Node)
-        @nodes << node
-      else
-        raise ArgumentError, "Nodes must be either symbols or Nodes, but received #{node.class}"
-      end
+      @nodes << if node.is_a?(Node)
+                  node
+                else
+                  Node.new(node)
+                end
     end
   end
 
   def ==(other)
-    return false unless other.is_a?(Edge)
-
-    @nodes == other.nodes
+    other.is_a?(Edge) && @nodes == other.nodes
   end
 
   def to_s
     "[#{nodes.to_a.join(', ')}]"
+  end
+
+  def hash
+    @nodes.hash
+  end
+
+  def eql?(other)
+    other.is_a?(Edge) && self == other
   end
 end
