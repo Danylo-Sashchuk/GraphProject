@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 require 'set'
 
-a = Set.new([:a, :b])
-b = Set.new([:b, :a])
+a = Set.new
 
-puts a == b
+a << :a
+a << :b
+a << :a
+
+print a
