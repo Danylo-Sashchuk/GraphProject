@@ -14,7 +14,7 @@ class TestNode < Minitest::Unit::TestCase
   end
 
   def test_same
-    assert_equal(@node, @node)
+    assert_same(@node, @node)
   end
 
   def test_to_s

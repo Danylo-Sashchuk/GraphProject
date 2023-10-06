@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-require_relative 'model/graph'
+require 'set'
 
-g = Graph.new
-g.add_node(:a)
+a = Set.new([:a, :b])
+b = Set.new([:b, :a])
+
+puts a == b

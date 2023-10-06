@@ -1,29 +1,31 @@
 # frozen_string_literal: true
+
 require_relative 'node'
+require 'set'
 
 class Edge
-  attr_reader :node_a, :node_b
+  attr_reader :nodes
 
   def initialize(node_a, node_b)
-    if node_a.is_a?(Symbol) && node_b.is_a?(Symbol)
-      @node_a = Node.new(node_a)
-      @node_b = Node.new(node_b)
-    elsif node_a.is_a?(Node) && node_b.is_a?(Node)
-      @node_a = node_a
-      @node_b = node_b
-    else
-      raise ArgumentError, "Nodes must be either symbols or Nodes, but received #{node_a.class} and #{node_b.class}"
+    @nodes = Set.new
+    [node_a, node_b].each do |node|
+      if node.is_a?(Symbol)
+        @nodes << Node.new(node)
+      elsif node.is_a?(Node)
+        @nodes << node
+      else
+        raise ArgumentError, "Nodes must be either symbols or Nodes, but received #{node.class}"
+      end
     end
   end
 
   def ==(other)
     return false unless other.is_a?(Edge)
 
-    (@node_a == other.node_a && @node_b == other.node_b) ||
-      (@node_a == other.node_b && @node_b == other.node_a)
+    @nodes == other.nodes
   end
 
   def to_s
-    "[#{@node_a}, #{@node_b}]"
+    "[#{nodes.to_a.join(', ')}]"
   end
 end
