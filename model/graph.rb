@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'edge'
+require_relative '../exceptions/graph_exception'
 
 class Graph
   attr_reader :nodes, :edges
@@ -27,11 +28,11 @@ class Graph
     begin
       nodes.each do |node|
         add_node(node)
-        added_nodes << Node.new(node)
+        added_nodes.add(Node.new(node))
       end
     rescue StandardError => e
       @nodes -= added_nodes
-      raise e
+      raise GraphException.new(e), "Exception faced. Rollback the graph's nodes"
     end
   end
 

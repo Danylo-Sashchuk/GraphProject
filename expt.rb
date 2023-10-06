@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 require 'set'
+require_relative './model/graph'
 
-a = Set.new
-
-a << :a
-a << :b
-a << :a
-
-print a
+g = Graph.new
+g.add_nodes(:a, -1)
