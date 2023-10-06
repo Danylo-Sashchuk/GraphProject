@@ -6,11 +6,13 @@ class Graph
   attr_reader :nodes, :edges
 
   def initialize
-    @nodes = []
-    @edges = []
+    @nodes = Set.new
+    @edges = Set.new
   end
 
   def add_node(node)
+    raise ArgumentError if @nodes.include?(node)
+
     @nodes << if node.is_a?(Node)
                 node
               else

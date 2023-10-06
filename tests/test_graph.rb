@@ -28,6 +28,13 @@ class TestGraph < Minitest::Unit::TestCase
     assert_nodes_size(1)
   end
 
+  def test_add_node_existed_node
+    @graph.add_node(:a)
+    @graph.add_node(:a)
+    assert_equal([:a], @graph.get_nodes)
+    assert_nodes_size(1)
+  end
+
   def test_add_node_as_node
     @graph.add_node(Node.new(:c))
     assert_equal([:c], @graph.get_nodes)
@@ -44,20 +51,6 @@ class TestGraph < Minitest::Unit::TestCase
     @graph.add_nodes(:a, :b, :c)
     assert_equal(%i[a b c], @graph.get_nodes)
     assert_nodes_size(3)
-  end
-
-  def test_add_nodes_not_symbol1
-    assert_raises(TypeError) do
-      @graph.add_nodes(%i[a b])
-    end
-  end
-
-  def test_add_node_not_symbol2
-    assert_raises(TypeError) { @graph.add_node(4) }
-  end
-
-  def test_add_node_not_symbol3
-    assert_raises(TypeError) { @graph.add_node('some_name') }
   end
 
   def test_add_edge

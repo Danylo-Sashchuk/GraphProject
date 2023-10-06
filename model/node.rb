@@ -18,7 +18,7 @@ class Node
   end
 
   def hash
-    @name.to_s.hash
+    @name.hash
   end
 
   def eql?(other)
