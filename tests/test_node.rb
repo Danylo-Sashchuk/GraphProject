@@ -29,12 +29,12 @@ class TestNode < Minitest::Unit::TestCase
     assert_equal('a', @node.to_s)
   end
 
-  def test_hash1
-    assert(@node.hash == Node.new(:a).hash)
+  def test_hash
+    assert_equal(@node.hash, Node.new(:a).hash)
   end
 
-  def test_hash2
-    assert(@node.hash == Node.new(:a).hash)
+  def test_hash_should_fail
+    refute(@node.hash == Node.new(:b))
   end
 
   def test_eql1
@@ -45,7 +45,7 @@ class TestNode < Minitest::Unit::TestCase
     assert(@node.eql?(@node))
   end
 
-  def test_eql3
+  def test_eql_should_fail
     refute(@node.eql?('String'))
   end
 end
