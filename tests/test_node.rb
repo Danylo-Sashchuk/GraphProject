@@ -10,7 +10,11 @@ class TestNode < Minitest::Unit::TestCase
   end
 
   def test_init
-    Node.new("a")
+    Node.new(:a)
+  end
+
+  def test_init_type_error
+    assert_raises(TypeError) { Node.new('String') }
   end
 
   def test_equal
@@ -43,9 +47,5 @@ class TestNode < Minitest::Unit::TestCase
 
   def test_eql3
     refute(@node.eql?('String'))
-  end
-
-  def test_init_type_error
-    assert_raises(TypeError) { Node.new('String') }
   end
 end
