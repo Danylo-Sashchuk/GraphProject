@@ -3,6 +3,9 @@
 require_relative 'node'
 require 'set'
 
+# Edge class represents an edge in a graph, connecting two nodes.
+#
+# An edge is defined by a pair of nodes, which can be instances of the `Node` class or symbols representing node names.
 class Edge
   attr_reader :nodes
 
