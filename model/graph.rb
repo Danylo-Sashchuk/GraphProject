@@ -11,23 +11,32 @@ class Graph
   end
 
   def add_node(node)
-    raise ArgumentError if @nodes.include?(node)
+    node = if node.is_a?(Node)
+             node
+           else
+             Node.new(node)
+           end
 
-    @nodes << if node.is_a?(Node)
-                node
-              else
-                Node.new(node)
-              end
+    raise ArgumentError, "Node #{node} is already in the graph" if @nodes.include?(node)
+
+    @nodes << node
   end
 
   def add_nodes(*nodes)
-    nodes.each { |node| add_node(node) }
+    added_nodes = Set.new
+    begin
+      nodes.each do |node|
+        add_node(node)
+        added_nodes << Node.new(node)
+      end
+    rescue StandardError => e
+      @nodes -= added_nodes
+      raise e
+    end
   end
 
   def get_nodes
-    output = []
-    nodes.each { |node| output << node.name }
-    output
+    nodes.map(&:name)
   end
 
   def nbr_nodes
