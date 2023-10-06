@@ -16,4 +16,12 @@ class Node
   def ==(other)
     @name == other.name
   end
+
+  def hash
+    @name.to_s.hash
+  end
+
+  def eql?(other)
+    other.is_a?(Node) && self == other
+  end
 end
