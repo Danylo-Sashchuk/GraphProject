@@ -99,8 +99,6 @@ class TestGraph < Minitest::Unit::TestCase
     assert_nodes_and_edges
   end
 
-  def test_add_edge
-    add_many_nodes
   def test_get_nodes1
     assert_nodes_and_edges
   end
@@ -111,6 +109,21 @@ class TestGraph < Minitest::Unit::TestCase
     assert_node_and_edge_counts({ nodes: 2 })
     assert_nodes_and_edges({ nodes: %i[a b] })
   end
+
+  def test_get_edges1
+    assert_nodes_and_edges
+    assert_node_and_edge_counts
+  end
+
+  def test_get_edges2
+    @graph.add_nodes(:a, :b)
+    @graph.add_edge(:a, :b)
+    assert_node_and_edge_counts({ nodes: 2, edges: 1 })
+    assert_nodes_and_edges({ nodes: %i[b a], edges: [%i[b a]] })
+  end
+
+  def test_get_edges3
+    add_some_nodes
     @graph.add_edge(:a, :b)
   end
 
