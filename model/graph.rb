@@ -59,6 +59,10 @@ class Graph
     @edges.size
   end
 
+  def to_s
+    # TODO: The to_s method returns a string representing the graph's adjacency lists.
+  end
+
   private
 
   def remove_added_nodes(added_nodes)
