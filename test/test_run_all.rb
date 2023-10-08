@@ -13,4 +13,3 @@ Dir.glob(File.join(graph_tests_dir, 'test_*.rb')).sort.each do |test_file|
 end
 
 Minitest.run
-

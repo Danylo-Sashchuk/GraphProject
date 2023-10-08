@@ -89,8 +89,4 @@ class TestGraphEdges < TestGraph
     assert_node_and_edge_number({ nodes: 3, edges: 1 })
     assert_nodes_and_edges({ nodes: %i[b a c], edges: [%i[c a]] })
   end
-
-  def test_run_all_tests
-
-  end
 end

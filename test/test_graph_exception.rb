@@ -2,7 +2,7 @@
 require 'minitest/autorun'
 require_relative '../exceptions/graph_exception'
 
-class GraphExceptionTest < Minitest::Unit::TestCase
+class TestGraphException < Minitest::Unit::TestCase
 
   def test_1
     exceptional_method
