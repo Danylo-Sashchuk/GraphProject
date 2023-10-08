@@ -2,5 +2,5 @@
 require 'set'
 require_relative './model/graph'
 
-g = Graph.new
-g.add_nodes(:a, -1)
+a = Graph.new
+a.add_nodes(:a, :b, Node.new(:c))

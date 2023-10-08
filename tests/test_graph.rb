@@ -80,12 +80,10 @@ class TestGraph < Minitest::Unit::TestCase
   end
 
   def test_add_nodes4
-    @graph.add_nodes(:a, :b, Node.new(:c)) #TODO: can we add node? if can. fix in add_nodes
-    assert(Util.arrays_equal_disregard_order([], @graph.get_nodes))
-    assert_node_and_edge_counts({ nodes: 0 })
+    @graph.add_nodes(:a, :b, Node.new(:c))
+    assert(Util.arrays_equal_disregard_order(%i[a b c], @graph.get_nodes))
+    assert_node_and_edge_counts({ nodes: 3 })
   end
-
-  # TODO: Util.arrays_equal_disregard_order meke this method with assertion to convinient framework work
 
   def test_add_nodes_existed
     assert_raises(GraphException) { @graph.add_nodes(:a, :b, Node.new(:b)) }
