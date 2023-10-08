@@ -12,7 +12,7 @@ class Graph
   end
 
   def add_node(node)
-    node = create_node(node)
+    node = Node.ensure_node(node)
     raise ArgumentError, "Node #{node} is already in the graph" if @nodes.include?(node)
 
     @nodes << node
@@ -22,7 +22,7 @@ class Graph
     added_nodes = Set.new
     begin
       nodes.each do |node|
-        node = create_node(node)
+        node = Node.ensure_node(node)
         add_node(node)
         added_nodes.add(node)
       end
@@ -33,7 +33,7 @@ class Graph
   end
 
   def get_nodes
-    nodes.map(&:name)
+    @nodes.map(&:name)
   end
 
   def nbr_nodes
@@ -56,9 +56,5 @@ class Graph
 
   def remove_added_nodes(added_nodes)
     @nodes -= added_nodes
-  end
-
-  def create_node(node)
-    node.is_a?(Node) ? node : Node.new(node)
   end
 end

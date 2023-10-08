@@ -28,4 +28,8 @@ class Node
   def eql?(other)
     other.is_a?(Node) && self == other
   end
+
+  def self.ensure_node(node)
+    node.is_a?(Node) ? node : Node.new(node)
+  end
 end

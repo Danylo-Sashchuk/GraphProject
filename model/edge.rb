@@ -12,11 +12,7 @@ class Edge
   def initialize(node_a, node_b)
     @nodes = Set.new
     [node_a, node_b].each do |node|
-      @nodes << if node.is_a?(Node)
-                  node
-                else
-                  Node.new(node)
-                end
+      @nodes << Node.ensure_node(node)
     end
   end
 
