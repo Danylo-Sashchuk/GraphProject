@@ -39,7 +39,7 @@ k -> \nl -> \nm -> \nn -> \no -> \n", @graph.to_s)
   end
 
   def add_some_nodes
-    @graph.add_nodes(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o) # 15
+    @graph.add_nodes(:a, :b, :c, :d, :e, :f, :graph, :h, :i, :j, :k, :l, :m, :n, :o) # 15
   end
 
   def assert_node_and_edge_number(args = {})
