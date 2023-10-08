@@ -16,6 +16,28 @@ class TestGraph < Minitest::Unit::TestCase
     assert_nodes_and_edges
   end
 
+  def test_to_s1
+    @graph.add_nodes(:a, :b, :c)
+    @graph.add_edge(:a, :b)
+    @graph.add_edge(:b, :c)
+    exp = "a -> b\nb -> a, c\nc -> b\n"
+    assert_equal(exp, @graph.to_s)
+  end
+
+  def test_to_s2
+    assert_equal('', @graph.to_s)
+  end
+
+  def test_to_s3
+    add_some_nodes
+    @graph.add_edge(:a, :b)
+    @graph.add_edge(:a, :c)
+    @graph.add_edge(:a, :e)
+    @graph.add_edge(:b, :j)
+    assert_equal("a -> b, c, e\nb -> a, j\nc -> a\nd -> \ne -> a\nf -> \ng -> \nh -> \ni -> \nj -> b\n
+k -> \nl -> \nm -> \nn -> \no -> \n", @graph.to_s)
+  end
+
   def add_some_nodes
     @graph.add_nodes(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o) # 15
   end

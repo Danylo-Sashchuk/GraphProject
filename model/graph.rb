@@ -60,7 +60,20 @@ class Graph
   end
 
   def to_s
-    # TODO: The to_s method returns a string representing the graph's adjacency lists.
+    adjacency_list = {}
+    @nodes.each { |node| adjacency_list[node.name] = [] }
+
+    edges.each do |edge|
+      node1, node2 = edge.nodes.map(&:name)
+      adjacency_list[node1] << node2
+      adjacency_list[node2] << node1
+    end
+
+    result = ''
+    adjacency_list.each do |node, neighbors|
+      result += "#{node} -> #{neighbors.join(', ')}\n"
+    end
+    result
   end
 
   private
