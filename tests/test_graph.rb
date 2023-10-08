@@ -87,6 +87,12 @@ class TestGraph < Minitest::Unit::TestCase
     assert_nodes_and_edges({ nodes: %i[a b c] })
   end
 
+  def test_add_nodes5
+    @graph.add_nodes(%i[a c], %i[w q], :b, :t)
+    assert_node_and_edge_number({ nodes: 6 })
+    assert_nodes_and_edges({ nodes: %i[t a b c w q] })
+  end
+
   def test_add_nodes_existed
     assert_raises(GraphException) { @graph.add_nodes(:a, :b, Node.new(:b)) }
     assert_node_and_edge_number

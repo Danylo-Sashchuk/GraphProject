@@ -19,11 +19,10 @@ class Graph
     @nodes << node
   end
 
-  # TODO: what about Array in parameter?
   def add_nodes(*nodes)
     added_nodes = Set.new
     begin
-      nodes.each do |node|
+      nodes.flatten.each do |node|
         node = Node.ensure_node(node)
         add_node(node)
         added_nodes.add(node)
