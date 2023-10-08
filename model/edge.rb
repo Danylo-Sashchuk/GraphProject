@@ -24,6 +24,10 @@ class Edge
     "[#{nodes.to_a.join(', ')}]"
   end
 
+  def to_a
+    @nodes.to_a.map(&:name)
+  end
+
   def hash
     @nodes.hash
   end

@@ -71,6 +71,10 @@ class TestEdge < Minitest::Unit::TestCase
     assert_equal('[b, a]', @edge.to_s)
   end
 
+  def test_to_a1
+    assert_equal(%i[a b], @edge.to_a)
+  end
+
   def test_hash1
     assert_equal(@edge.hash, Edge.new(:a, :b).hash)
   end
