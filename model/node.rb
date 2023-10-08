@@ -14,7 +14,7 @@ class Node
   end
 
   def to_s
-    @name.name
+    @name.to_s
   end
 
   def ==(other)

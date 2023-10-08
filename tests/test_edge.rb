@@ -53,22 +53,22 @@ class TestEdge < Minitest::Unit::TestCase
   end
 
   def test_to_s1
-    assert_equal('[a, b]', @edge.to_s)
+    assert_equal('[:a, :b]', @edge.to_s)
   end
 
   def test_to_s2
     @edge = Edge.new(:b, :a)
-    assert_equal('[b, a]', @edge.to_s)
+    assert_equal('[:b, :a]', @edge.to_s)
   end
 
   def test_to_s3
     @edge = Edge.new(:a, Node.new(:b))
-    assert_equal('[a, b]', @edge.to_s)
+    assert_equal('[:a, :b]', @edge.to_s)
   end
 
   def test_to_s4
     @edge = Edge.new(Node.new(:b), Node.new(:a))
-    assert_equal('[b, a]', @edge.to_s)
+    assert_equal('[:b, :a]', @edge.to_s)
   end
 
   def test_to_a1

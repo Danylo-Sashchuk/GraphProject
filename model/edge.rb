@@ -21,11 +21,11 @@ class Edge
   end
 
   def to_s
-    "[#{nodes.to_a.join(', ')}]"
+    to_a.to_s
   end
 
   def to_a
-    @nodes.to_a.map(&:name)
+    @nodes.map(&:name)
   end
 
   def hash
