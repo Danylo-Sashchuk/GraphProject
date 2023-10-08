@@ -34,8 +34,8 @@ class Graph
     end
   end
 
-  def get_nodes
-    @nodes.map(&:name)
+  def nodes_str
+    @nodes.map(&:name).to_s
   end
 
   def nbr_nodes
@@ -52,8 +52,8 @@ class Graph
     @edges << Edge.new(node_a, node_b)
   end
 
-  def get_edges
-    @edges
+  def edges_str
+    "[#{edges.join(', ')}]"
   end
 
   def nbr_edges
