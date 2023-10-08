@@ -8,13 +8,9 @@ class Node
   attr_reader :name
 
   def initialize(name)
-    if name.is_a?(Node)
-      @name = name.name
-    elsif name.is_a?(Symbol)
-      @name = name
-    else
-      raise TypeError, "Node name must be a symbol, but received #{name.class}"
-    end
+    raise TypeError, "Node name must be a symbol, but received #{name.class}" unless name.is_a?(Symbol)
+
+    @name = name
   end
 
   def to_s
