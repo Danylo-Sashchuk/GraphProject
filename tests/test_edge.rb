@@ -18,9 +18,9 @@ class TestEdge < Minitest::Unit::TestCase
     @edge = Edge.new(:a, Node.new(:b))
   end
 
-  # def test_init_raise_exception
-  #   @edge = Edge.new(Node.new(:b), 123)
-  # end
+  def test_init_raise_exception
+    assert_raises(TypeError) { Edge.new(Node.new(:b), 123) }
+  end
 
   def test_equal1
     @edge == Edge.new(:a, :b)
