@@ -6,8 +6,7 @@ class GraphUtils
     nodes = n.times.map { |i| "v#{i}".to_sym }
     graph.add_nodes(nodes)
 
-    nodes.combination(2).each { |pair| graph.add_edge(pair[0], pair[1]) }
-
+    nodes.combination(2).each { |pair| graph.add_edge(pair[0], pair[1]) if rand < p }
     graph
   end
 end
