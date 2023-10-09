@@ -37,6 +37,59 @@ class TestGraph < Minitest::Unit::TestCase
     assert_equal("a -> b, c, e\nb -> a, j\nc -> a\nd -> \ne -> a\nf -> \ng -> \nh -> \ni -> \nj -> b\nk -> \nl -> \nm -> \nn -> \no -> \n", @graph.to_s)
   end
 
+  def test_equal1
+    @graph.add_nodes(:a, :b, :c)
+    @graph.add_edge(:a, :b)
+    @graph.add_edge(:a, :c)
+    @graph.add_edge(:b, :c)
+
+    equal_graph = Graph.new
+    equal_graph.add_nodes(:a, :b, :c)
+    equal_graph.add_edge(:a, :b)
+    equal_graph.add_edge(:a, :c)
+    equal_graph.add_edge(:b, :c)
+
+    assert_equal(equal_graph, @graph)
+  end
+
+  def test_equal2
+    assert_equal(Graph.new, @graph)
+  end
+
+  def test_equal3
+    not_a_graph = 'I am a Graph. Really!'
+    refute(@graph == not_a_graph)
+  end
+
+  def test_equal4
+    @graph.add_nodes(:a, :b, :c)
+    @graph.add_edge(:a, :b)
+    @graph.add_edge(:a, :c)
+    @graph.add_edge(:b, :c)
+
+    equal_graph = Graph.new
+    equal_graph.add_nodes(:a, :b, :c)
+    equal_graph.add_edge(:a, :b)
+    equal_graph.add_edge(:a, :c)
+    equal_graph.add_edge(:b, :c)
+
+    assert(equal_graph == @graph)
+  end
+
+  def test_equal5
+    assert_equal(@graph, @graph)
+  end
+
+  def test_equal6
+    assert(@graph == @graph)
+  end
+
+  def test_same
+    assert_same(@graph, @graph)
+  end
+
+  protected
+
   def add_some_nodes
     @graph.add_nodes(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o) # 15
   end

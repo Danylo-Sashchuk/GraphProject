@@ -75,6 +75,12 @@ class Graph
     result
   end
 
+  def ==(other)
+    return false unless other.is_a?(Graph)
+
+    nodes == other.nodes && edges == other.edges
+  end
+
   private
 
   def remove_added_nodes(added_nodes)
