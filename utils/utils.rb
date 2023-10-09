@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Util
+class Utils
   def self.arrays_equal_disregard_order(array_a, array_b)
     ((array_a.to_a - array_b.to_a) + (array_b.to_a - array_a.to_a)).empty?
   end
