@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative '../model/graph'
 
 class GraphUtils
   def self.genCompleteGraph(n, p = 1)
