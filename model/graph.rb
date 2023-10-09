@@ -4,7 +4,6 @@ require_relative 'edge'
 require_relative '../exceptions/graph_exception'
 
 class Graph
-  # TODO: consider implementation of to_s through to_a
   attr_reader :nodes, :edges
 
   def initialize

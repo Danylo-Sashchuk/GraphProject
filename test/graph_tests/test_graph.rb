@@ -34,12 +34,11 @@ class TestGraph < Minitest::Unit::TestCase
     @graph.add_edge(:a, :c)
     @graph.add_edge(:a, :e)
     @graph.add_edge(:b, :j)
-    assert_equal("a -> b, c, e\nb -> a, j\nc -> a\nd -> \ne -> a\nf -> \ng -> \nh -> \ni -> \nj -> b\n
-k -> \nl -> \nm -> \nn -> \no -> \n", @graph.to_s)
+    assert_equal("a -> b, c, e\nb -> a, j\nc -> a\nd -> \ne -> a\nf -> \ng -> \nh -> \ni -> \nj -> b\nk -> \nl -> \nm -> \nn -> \no -> \n", @graph.to_s)
   end
 
   def add_some_nodes
-    @graph.add_nodes(:a, :b, :c, :d, :e, :f, :graph, :h, :i, :j, :k, :l, :m, :n, :o) # 15
+    @graph.add_nodes(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o) # 15
   end
 
   def assert_node_and_edge_number(args = {})

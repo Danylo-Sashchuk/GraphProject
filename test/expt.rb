@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'set'
-require_relative './model/graph'
+require_relative './model//graph'
 
 g = Graph.new
 g.add_nodes(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o) # 15
