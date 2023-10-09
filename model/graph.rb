@@ -4,18 +4,18 @@ require_relative 'edge'
 require_relative '../exceptions/graph_exception'
 
 class Graph
-  attr_reader :nodes, :edges
+  attr_reader :adjacency_list
+  # TODO: check for object ids in edges and nodes!
 
   def initialize
-    @nodes = Set.new
-    @edges = Set.new
+    @adjacency_list = {}
   end
 
   def add_node(node)
     node = Node.ensure_node(node)
     raise ArgumentError, "Node #{node} is already in the graph" if @nodes.include?(node)
 
-    @nodes << node
+    @adjacency_list[node]
   end
 
   def add_nodes(*nodes)
