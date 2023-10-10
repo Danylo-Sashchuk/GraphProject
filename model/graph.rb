@@ -4,6 +4,7 @@ require_relative 'edge'
 require_relative '../exceptions/graph_exception'
 require 'set'
 
+# TODO: check object Id of nodes
 class Graph
   attr_reader :adjacency_list
 
@@ -18,46 +19,49 @@ class Graph
     @adjacency_list[node] = []
   end
 
-  # def add_nodes(*nodes)
-  #   added_nodes = Set.new
-  #   begin
-  #     nodes.flatten.each do |node|
-  #       node = Node.ensure_node(node)
-  #       add_node(node)
-  #       added_nodes.add(node)
-  #     end
-  #   rescue StandardError => e
-  #     remove_added_nodes(added_nodes)
-  #     raise GraphException, "Exception occurred. Rollback the graph's nodes. \n#{e.message}"
-  #   end
-  # end
+  def add_nodes(*nodes)
+    added_nodes = []
+    begin
+      nodes.flatten.each do |node|
+        node = Node.ensure_node(node)
+        add_node(node)
+        added_nodes << node
+      end
+    rescue StandardError => e
+      # Rollback the graph if one of the received nodes is wrong
+      added_nodes.each { |node| @adjacency_list.delete(node) }
+      raise GraphException, "Exception occurred. Rollback the graph's nodes. \n#{e.message}"
+    end
+  end
 
   def nodes_str
-    output = @adjacency_list.keys.join(', ')
-    "[#{output}]"
+    nodes = @adjacency_list.keys.map { |node| node.name }
+    "[#{nodes.join(', ')}]"
   end
 
   def nbr_nodes
     @adjacency_list.keys.size
   end
 
+  def nodes
+    @adjacency_list.keys
+  end
+
   def add_edge(node_a, node_b)
     node_a = Node.ensure_node(node_a)
     node_b = Node.ensure_node(node_b)
-    unless @adjacency_list.keys.include?(node_a) && @adjacency_list.keys.include?(node_b)
-      raise GraphException, 'One of the nodes does not belong to the graph.'
-    end
+
+    raise GraphException, "#{node_a} does not belong to the graph." unless @adjacency_list.keys.include?(node_a)
+    raise GraphException, "#{node_b} does not belong to the graph." unless @adjacency_list.keys.include?(node_b)
 
     @adjacency_list[node_a] << node_b
     @adjacency_list[node_b] << node_a
   end
 
   def edges_str
-    edges = Set.new
-    @adjacency_list.each do |node, neighbors|
-      neighbors.each { |neighbor| edges << [node.name, neighbor.name].sort }
-    end
-    edges.to_a.to_s
+    raw_edges = edges.to_a
+    output = raw_edges.map { |array| "[#{array[0]}, #{array[1]}]" }.join(', ')
+    "[#{output}]"
   end
 
   def nbr_edges
@@ -66,6 +70,14 @@ class Graph
       edges += neighbors.length
     end
     edges / 2
+  end
+
+  def edges
+    edges = Set.new
+    @adjacency_list.each do |node, neighbors|
+      neighbors.each { |neighbor| edges << [node.name, neighbor.name].sort }
+    end
+    edges
   end
 
   def to_s
@@ -79,12 +91,17 @@ class Graph
   def ==(other)
     return false unless other.is_a?(Graph)
 
-    @adjacency_list == other.adjacency_list
+    self_adjacency_set = adjacency_set
+    other_adjacency_set = other.adjacency_set
+
+    self_adjacency_set == other_adjacency_set
   end
 
-  private
-
-  # def remove_added_nodes(added_nodes)
-  #   @nodes -= added_nodes
-  # end
+  def adjacency_set
+    set = {}
+    @adjacency_list.each do |node, neighbors|
+      set[node] = Set.new(neighbors)
+    end
+    set
+  end
 end

@@ -68,14 +68,14 @@ class TestGraphEdges < TestGraph
     @graph.add_nodes(:a, :b, :c)
     @graph.add_edge(:a, :b)
     @graph.add_edge(:a, :c)
-    assert_equal('[[:a, :b], [:a, :c]]', @graph.edges_str)
+    assert_equal('[[a, b], [a, c]]', @graph.edges_str)
     check_state({ nodes_nbr: 3, nodes: %i[a b c], edges_nbr: 2, edges: [%i[a b], %i[c a]] })
   end
 
   def test_edges_str3
     @graph.add_nodes(:a, :b, :c)
     @graph.add_edge(:a, :c)
-    assert_equal('[[:a, :c]]', @graph.edges_str)
+    assert_equal('[[a, c]]', @graph.edges_str)
     check_state({ nodes_nbr: 3, nodes: %i[a b c], edges_nbr: 1, edges: [%i[c a]] })
   end
 end

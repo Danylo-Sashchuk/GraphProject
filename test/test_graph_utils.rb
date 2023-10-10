@@ -15,7 +15,7 @@ class TestGraphUtils < Minitest::Test
 
     graph = Graph.new
     graph.add_nodes(:v0, :v1, :v2)
-    graph.add_edge(:v0, :v1)
+    graph.add_edge(:v1, :v0)
     graph.add_edge(:v1, :v2)
     graph.add_edge(:v2, :v0)
 

@@ -97,13 +97,13 @@ class TestGraphNodes < TestGraph
 
   def test_nodes_str2
     @graph.add_nodes(:a, :b, :c)
-    assert_equal('[:a, :b, :c]', @graph.nodes_str)
+    assert_equal('[a, b, c]', @graph.nodes_str)
     check_state({ nodes_nbr: 3, nodes: %i[a b c] })
   end
 
   def test_nodes_str3
     @graph.add_nodes(:a, :c, :b)
-    assert_equal('[:a, :c, :b]', @graph.nodes_str)
+    assert_equal('[a, c, b]', @graph.nodes_str)
     check_state({ nodes_nbr: 3, nodes: %i[a b c] })
   end
 end
