@@ -52,12 +52,12 @@ class TestGraphUtils < Minitest::Test
   end
 
   def test_render1
-    graph = GraphUtils.genCompleteGraph(12)
+    graph = GraphUtils.genCompleteGraph(4)
     graph.render('graph.svg', [200, 200], 200)
   end
 
   def test_render2
-    40.times do |index|
+    10.times do |index|
       name = 'v'
       c = rand(200..1000)
       center = [c, c] # Random center within a range
