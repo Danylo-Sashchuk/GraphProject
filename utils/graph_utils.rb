@@ -5,9 +5,9 @@ class GraphUtils
   def self.genCompleteGraph(n, p = 1)
     graph = Graph.new
     nodes = n.times.map { |i| "v#{i}".to_sym }
-    graph.add_nodes(nodes) # TODO: here it creates nodes
+    graph.add_nodes(nodes)
 
-    nodes.combination(2).each { |pair| graph.add_edge(pair[0], pair[1]) if rand < p } # TODO: and here it does again
+    nodes.combination(2).each { |pair| graph.add_edge(pair[0], pair[1]) if rand < p }
     graph
   end
 

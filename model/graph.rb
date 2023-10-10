@@ -10,13 +10,15 @@ class Graph
 
   def initialize
     @adjacency_list = {}
+    @nodes_pool = {}
   end
 
   def add_node(node)
     node = Node.ensure_node(node)
-    raise ArgumentError, "Node #{node} is already in the graph" if @adjacency_list.keys.include?(node)
+    raise ArgumentError, "Node #{node} is already in the graph" if @adjacency_list.key?(node)
 
     @adjacency_list[node] = []
+    @nodes_pool[node.name] = node
   end
 
   def add_nodes(*nodes)
@@ -29,13 +31,16 @@ class Graph
       end
     rescue StandardError => e
       # Rollback the graph if one of the received nodes is wrong
-      added_nodes.each { |node| @adjacency_list.delete(node) }
+      added_nodes.each do |node|
+        @adjacency_list.delete(node)
+        @nodes_pool.delete(node.name)
+      end
       raise GraphException, "Exception occurred. Rollback the graph's nodes. \n#{e.message}"
     end
   end
 
   def nodes_str
-    nodes = @adjacency_list.keys.map { |node| node.name }
+    nodes = @adjacency_list.keys.map(&:name)
     "[#{nodes.join(', ')}]"
   end
 
@@ -51,8 +56,11 @@ class Graph
     node_a = Node.ensure_node(node_a)
     node_b = Node.ensure_node(node_b)
 
-    raise GraphException, "#{node_a} does not belong to the graph." unless @adjacency_list.keys.include?(node_a)
-    raise GraphException, "#{node_b} does not belong to the graph." unless @adjacency_list.keys.include?(node_b)
+    node_a = @nodes_pool[node_a.name]
+    node_b = @nodes_pool[node_b.name]
+
+    raise GraphException, "#{node_a} does not belong to the graph." if node_a.nil?
+    raise GraphException, "#{node_b} does not belong to the graph." if node_b.nil?
 
     @adjacency_list[node_a] << node_b
     @adjacency_list[node_b] << node_a
