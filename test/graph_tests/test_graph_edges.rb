@@ -16,19 +16,28 @@ class TestGraphEdges < TestGraph
   end
 
   def test_add_edge1
-    assert_raises(GraphException) { @graph.add_edge(:a, :b) }
+    captured_output = capture_io do
+      @graph.add_edge(:a, :a)
+    end
+    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
     check_state
   end
 
   def test_add_edge2
     @graph.add_node(:a)
-    assert_raises(GraphException) { @graph.add_edge(:a, :b) }
+    captured_output = capture_io do
+      @graph.add_edge(:a, :b)
+    end
+    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
     check_state({ nodes: [:a], nodes_nbr: 1 })
   end
 
   def test_add_edge3
     @graph.add_node(:b)
-    assert_raises(GraphException) { @graph.add_edge(:a, :b) }
+    captured_output = capture_io do
+      @graph.add_edge(:a, :b)
+    end
+    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
     check_state({ nodes: [:b], nodes_nbr: 1 })
   end
 
@@ -49,7 +58,7 @@ class TestGraphEdges < TestGraph
     @graph.add_nodes(:a, :b, :c)
     @graph.add_edge(:a, :b)
     @graph.add_edge(:a, :c)
-    refute Utils.check_state({ nodes_nbr: 3, nodes: %i[a b c], edges_nbr: 2, edges: [%i[a b], %i[c a q]] })
+    refute Utils.check_state({ nodes_nbr: 3, nodes: %i[a b c], edges_nbr: 2, edges: [%i[a b], %i[c q]] })
   end
 
   def test_add_edge7

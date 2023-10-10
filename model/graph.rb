@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../exceptions/graph_exception'
+require_relative 'node'
 require 'set'
 
 class Graph
@@ -50,6 +51,14 @@ class Graph
     @adjacency_list.keys
   end
 
+  def check_edge_constraints(node_a, node_b)
+    raise GraphException, 'One of the nodes does not belong to the graph.' if node_a.nil? || node_b.nil?
+
+    raise GraphException, "Cannot add an edge between the same node #{node_a}." if node_a == node_b
+
+    raise GraphException, "Edge between #{node_a} and #{node_b} already exist." if edge_exists?(node_a, node_b)
+  end
+
   def add_edge(node_a, node_b)
     node_a = Node.ensure_node(node_a)
     node_b = Node.ensure_node(node_b)
@@ -57,15 +66,13 @@ class Graph
     node_a = @nodes_pool[node_a.name]
     node_b = @nodes_pool[node_b.name]
 
-    raise GraphException, "#{node_a} does not belong to the graph." if node_a.nil?
-    raise GraphException, "#{node_b} does not belong to the graph." if node_b.nil?
-
-    raise GraphException, "Cannot add an edge between the same node #{node_a}." if node_a == node_b
-
-    raise GraphException, "Edge between #{node_a} and #{node_b} already exist." if edge_exists?(node_a, node_b)
-
-    @adjacency_list[node_a] << node_b
-    @adjacency_list[node_b] << node_a
+    begin
+      check_edge_constraints(node_a, node_b)
+      @adjacency_list[node_a] << node_b
+      @adjacency_list[node_b] << node_a
+    rescue GraphException => e
+      print(e.message)
+    end
   end
 
   def edge_exists?(node_a, node_b)
