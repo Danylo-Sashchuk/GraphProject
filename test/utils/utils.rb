@@ -9,9 +9,9 @@ class Utils
   end
 
   def self.check_state(args = {})
-    assert_node_number(args) ||
-      assert_edge_number(args) ||
-      assert_nodes(args) ||
+    assert_node_number(args) &&
+      assert_edge_number(args) &&
+      assert_nodes(args) &&
       assert_edges(args)
   end
 

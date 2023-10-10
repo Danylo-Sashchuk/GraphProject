@@ -10,7 +10,7 @@ class GraphException < StandardError
 
   def message_with_details
     msg = "GraphException occurred:\n"
-    if underlying_exception
+    if underlying_exception.is_a?(Exception)
       msg += "  Class: #{underlying_exception.class.name}\n"
       msg += "  Message: #{underlying_exception.message}\n"
       msg += "  Backtrace:\n#{underlying_exception.backtrace.join("\n")}\n"
