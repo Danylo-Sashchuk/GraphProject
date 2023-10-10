@@ -50,4 +50,18 @@ class TestGraphUtils < Minitest::Test
     dfs = GraphUtils.dfs(graph, :v5)
     assert_equal(dfs, [:v5])
   end
+
+  def test_render
+    20.times do |index|
+      name = 'v'
+      c = rand(200..1000)
+      center = [c, c] # Random center within a range
+      radius = rand(100..600) # Random radius within a range
+      number_of_nodes = rand(3..20) # Random number of nodes within a range
+      p = rand(0.1..0.9) # Random p value within a range
+
+      graph = GraphUtils.genCompleteGraph(number_of_nodes, p)
+      graph.render("#{name}#{index}.svg", center, radius)
+    end
+  end
 end

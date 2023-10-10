@@ -12,5 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.16.3, ruby-3.2.2-p53) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="victor (v0.3.4, ruby-3.2.2-p53) [gem]" level="application" />
   </component>
 </module>
