@@ -51,8 +51,13 @@ class TestGraphUtils < Minitest::Test
     assert_equal(dfs, [:v5])
   end
 
-  def test_render
-    20.times do |index|
+  def test_render1
+    graph = GraphUtils.genCompleteGraph(12)
+    graph.render('graph.svg', [200, 200], 200)
+  end
+
+  def test_render2
+    40.times do |index|
       name = 'v'
       c = rand(200..1000)
       center = [c, c] # Random center within a range

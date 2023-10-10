@@ -128,31 +128,33 @@ class Graph
   end
 
   def render(filename, center, radius)
-    # Calculate the viewBox values based on your circular layout
-    node_radius = 10 # Adjust this value as needed
-    viewbox_width = 3 * radius
-    viewbox_height = 3 * radius
-    radius = [radius, [viewbox_width - center[0], viewbox_height - center[1]].min - node_radius].min - 30
-    center[0] = [node_radius, [center[0], viewbox_width - node_radius].min].max
-    center[1] = [node_radius, [center[1], viewbox_height - node_radius].min].max
-    viewbox_x = center[0] - radius + 30
-    viewbox_y = center[1] - radius + 30
 
-    # Create an SVG document with the calculated viewBox
-    svg = Victor::SVG.new(width: viewbox_width, height: viewbox_height,
-                          viewBox: "#{viewbox_x} #{viewbox_y} #{viewbox_width} #{viewbox_height}
-                          ", style: { background: 'white' })
+    node_radius = 10
 
     total_nodes = nodes.length
     angle_between_nodes = 360.0 / total_nodes
+
+    padding = 20
+
+    # Calculate the canvas dimensions based on the center and radius
+    canvas_width = 2 * (radius + node_radius + padding)
+    canvas_height = 2 * (radius + node_radius + padding)
+
+    # Calculate the adjusted center coordinates to keep nodes within the canvas
+    center_x = [node_radius + radius + padding,
+                [center[0], radius + node_radius + padding, canvas_width - radius - node_radius - padding].sort[1]].max
+    center_y = [node_radius + radius + padding,
+                [center[1], radius + node_radius + padding, canvas_height - radius - node_radius - padding].sort[1]].max
+
+    svg = Victor::SVG.new(viewBox: "0 0 #{canvas_width} #{canvas_height}", style: { background: 'white' })
 
     nodes.each_with_index do |node, index|
       # Calculate the angle for the current node
       angle = index * angle_between_nodes
 
       # Calculate the coordinates for the node position on the circle
-      node_x = center[0] + radius * Math.cos(angle * Math::PI / 180)
-      node_y = center[1] + radius * Math.sin(angle * Math::PI / 180)
+      node_x = center_x + radius * Math.cos(angle * Math::PI / 180)
+      node_y = center_y + radius * Math.sin(angle * Math::PI / 180)
 
       # Create a circle for each node
       svg.circle(cx: node_x, cy: node_y, r: node_radius, fill: 'blue')
@@ -161,13 +163,15 @@ class Graph
       adjacency_list[node].each do |adjacent_node|
         adjacent_index = nodes.index(adjacent_node)
         adjacent_angle = adjacent_index * angle_between_nodes
-        adjacent_x = center[0] + radius * Math.cos(adjacent_angle * Math::PI / 180)
-        adjacent_y = center[1] + radius * Math.sin(adjacent_angle * Math::PI / 180)
+        adjacent_x = center_x + radius * Math.cos(adjacent_angle * Math::PI / 180)
+        adjacent_y = center_y + radius * Math.sin(adjacent_angle * Math::PI / 180)
 
         # Draw an edge (line) between the current node and its adjacent node
         svg.line(x1: node_x, y1: node_y, x2: adjacent_x, y2: adjacent_y, stroke: 'red', 'stroke-width': 1)
       end
+
     end
+
     svg.save(filename)
   end
 end
