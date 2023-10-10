@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../model/graph'
+require_relative '../model/node'
 
 class GraphUtils
   def self.genCompleteGraph(n, p = 1)
@@ -12,15 +13,21 @@ class GraphUtils
   end
 
   def self.dfs(graph, node)
-    visited = Set.new
-    dfs_rec(node, visited)
-    visited
+    visited = {}
+    node = Node.ensure_node(node)
+    dfs_rec(node, visited, graph.adjacency_list)
+    visited.keys.to_a.map(&:name)
   end
 
-  private
+  def self.dfs_rec(node, visited, adj_list)
+    return if visited[node]
 
-  def self.dfs_rec(node, visited)
-    visited.add(node)
+    visited[node] = true
+
+    neighbors = adj_list[node] || []
+    neighbors.each do |neighbor|
+      dfs_rec(neighbor, visited, adj_list)
+    end
 
   end
 end

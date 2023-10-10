@@ -87,11 +87,6 @@ class TestGraph < Minitest::Unit::TestCase
     assert_same(@graph, @graph)
   end
 
-  def check_state(args = {})
-    args[:graph] = @graph
-    assert(Utils.check_state(args))
-  end
-
   def test_duplicate_objects
     a = Node.new(:a)
     b = Node.new(:b)
@@ -101,7 +96,7 @@ class TestGraph < Minitest::Unit::TestCase
 
     @graph.add_nodes(a, b, c, d, e)
     @graph.add_edge(:a, b)
-    @graph.add_edge(c, a)
+    @graph.add_edge(c, Node.new(:a))
     node_a_id_as_key = @graph.nodes.find { |node| node.name == :a }.object_id
     node_a_id_in_value = @graph.adjacency_list[c][0].object_id
     assert_equal(node_a_id_as_key, node_a_id_in_value)
@@ -126,5 +121,10 @@ class TestGraph < Minitest::Unit::TestCase
       @graph.add_edge(:a, :a)
     end
     assert_match('Cannot add an edge between the same node a.', captured_output.join)
+  end
+
+  def check_state(args = {})
+    args[:graph] = @graph
+    assert(Utils.check_state(args))
   end
 end

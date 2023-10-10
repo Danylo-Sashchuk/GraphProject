@@ -3,6 +3,7 @@
 require 'minitest/autorun'
 require_relative '../model/graph'
 require_relative '../utils/graph_utils'
+require_relative 'utils/utils'
 
 class TestGraphUtils < Minitest::Test
   def test_gen_complete_graph1
@@ -30,5 +31,23 @@ class TestGraphUtils < Minitest::Test
     expected_edges = 5 * (5 - 1) / 2
     assert_operator(actual.nbr_edges, :>, 0)
     assert_operator(actual.nbr_edges, :<, expected_edges)
+  end
+
+  def test_df1
+    graph = Graph.new
+    graph.add_nodes(:v0, :v1, :v2, :v3, :v4, :v5)
+    graph.add_edge(:v0, Node.new(:v5))
+    graph.add_edge(Node.new(:v1), :v5)
+    graph.add_edge(:v5, :v4)
+
+    act_dfs_res = GraphUtils.dfs(graph, :v0)
+    exp = %i[v0 v1 v5 v4]
+    assert(Utils.arrays_equal_disregard_order(act_dfs_res, exp))
+  end
+
+  def test_df2
+    graph = GraphUtils.genCompleteGraph(10, 0)
+    dfs = GraphUtils.dfs(graph, :v5)
+    assert_equal(dfs, [:v5])
   end
 end
