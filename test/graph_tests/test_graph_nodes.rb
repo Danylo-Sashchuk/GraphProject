@@ -72,7 +72,10 @@ class TestGraphNodes < TestGraph
   end
 
   def test_add_nodes_existed
-    assert_raises(GraphException) { @graph.add_nodes(:a, :b, Node.new(:b)) }
+    captured_output = capture_io do
+      @graph.add_nodes(:a, :b, Node.new(:b))
+    end
+    assert_match('Node b is already in the graph. Rollback the nodes.', captured_output.join)
     check_state
   end
 

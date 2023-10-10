@@ -22,21 +22,17 @@ class Graph
   end
 
   def add_nodes(*nodes)
-    added_nodes = []
-    begin
-      nodes.flatten.each do |node|
-        node = Node.ensure_node(node)
-        add_node(node)
-        added_nodes << node
-      end
-    rescue StandardError => e
-      # Rollback the graph if one of the received nodes is wrong
-      added_nodes.each do |node|
-        @adjacency_list.delete(node)
-        @nodes_pool.delete(node.name)
-      end
-      raise GraphException, "Exception occurred. Rollback the graph's nodes. \n#{e.message}"
+    processed_nodes = Set.new
+    exception_occurred = false
+    nodes.flatten.each do |node|
+      node = Node.ensure_node(node)
+      next unless !@nodes_pool.key?(node.name) && !processed_nodes.add?(node)
+
+      print("Node #{node} is already in the graph. Rollback the nodes.")
+      exception_occurred = true
+      break
     end
+    processed_nodes.each { |node| add_node(node) } unless exception_occurred
   end
 
   def nodes_str
@@ -131,8 +127,7 @@ class Graph
 
     node_radius = 10
 
-    total_nodes = nodes.length
-    angle_between_nodes = 360.0 / total_nodes
+    angle_between_nodes = 360.0 / nodes.length
 
     padding = 20
 
