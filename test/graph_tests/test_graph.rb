@@ -91,4 +91,33 @@ class TestGraph < Minitest::Unit::TestCase
     args[:graph] = @graph
     assert(Utils.check_state(args))
   end
+
+  def test_duplicate_objects
+    a = Node.new(:a)
+    b = Node.new(:b)
+    c = Node.new(:c)
+    d = Node.new(:d)
+    e = Node.new(:e)
+
+    @graph.add_nodes(a, b, c, d, e)
+    @graph.add_edge(:a, b)
+    @graph.add_edge(c, a)
+    node_a_id_as_key = @graph.nodes.find { |node| node.name == :a }.object_id
+    node_a_id_in_value = @graph.adjacency_list[c][0].object_id
+    assert_equal(node_a_id_as_key, node_a_id_in_value)
+  end
+
+  def test_edge_exist1
+    a = Node.new(:a)
+    b = Node.new(:b)
+
+    @graph.add_nodes(a, b)
+    @graph.add_edge(b, a)
+    assert_raises(GraphException) { @graph.add_edge(a, b) }
+  end
+
+  def test_edge_between_same_node
+    @graph.add_nodes(:a, :b)
+    assert_raises(GraphException) { @graph.add_edge(:a, :a) }
+  end
 end

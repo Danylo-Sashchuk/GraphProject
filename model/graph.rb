@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'edge'
 require_relative '../exceptions/graph_exception'
 require 'set'
 
-# TODO: check object Id of nodes
 class Graph
   attr_reader :adjacency_list
 
@@ -62,8 +60,16 @@ class Graph
     raise GraphException, "#{node_a} does not belong to the graph." if node_a.nil?
     raise GraphException, "#{node_b} does not belong to the graph." if node_b.nil?
 
+    raise GraphException, "Cannot add an edge between the same node #{node_a}." if node_a == node_b
+
+    raise GraphException, "Edge between #{node_a} and #{node_b} already exist." if edge_exists?(node_a, node_b)
+
     @adjacency_list[node_a] << node_b
     @adjacency_list[node_b] << node_a
+  end
+
+  def edge_exists?(node_a, node_b)
+    @adjacency_list[node_a].include?(node_b) || @adjacency_list[node_b].include?(node_a)
   end
 
   def edges_str
