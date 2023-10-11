@@ -19,6 +19,7 @@ class Graph
   end
 
   def self.renderer
+    @@renderer.setup_canvas
     @@renderer
   end
 

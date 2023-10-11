@@ -112,7 +112,7 @@ class TestGraph < Minitest::Unit::TestCase
     captured_output = capture_io do
       @graph.add_edge(a, b)
     end
-    assert_match('Edge between a and b already exist.', captured_output.join)
+    assert_match('Edge between a and b already exists.', captured_output.join)
   end
 
   def test_edge_between_same_node
