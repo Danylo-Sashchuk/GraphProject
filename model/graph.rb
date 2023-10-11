@@ -32,16 +32,17 @@ class Graph
 
   def add_nodes(*nodes)
     processed_nodes = Set.new
-    exception_occurred = false
-    nodes.flatten.each do |node|
-      node = Node.ensure_node(node)
-      if @nodes_pool.key?(node.name) || processed_nodes.add?(node) == nil
-        print("Node #{node} is already in the graph. Rollback the nodes.")
-        exception_occurred = true
-        break
+    begin
+      nodes.flatten.each do |node|
+        node = Node.ensure_node(node)
+        if @nodes_pool.key?(node.name) || processed_nodes.add?(node) == nil
+          raise GraphException, "Node #{node} is already in the graph."
+        end
       end
+      processed_nodes.each { |node| add_node(node) }
+    rescue StandardError => e
+      print("#{e.message} Rollback the graph.\n")
     end
-    processed_nodes.each { |node| add_node(node) } unless exception_occurred
   end
 
   def nodes_str

@@ -39,8 +39,8 @@ class GraphRenderer
     end
   end
 
-  def save(filename)
-    @svg.save("output/#{filename}")
+  def save(filename, folder = 'output')
+    @svg.save("#{folder}/#{filename}")
   end
 
   def setup_canvas
