@@ -3,6 +3,8 @@
 require 'victor'
 
 class GraphRenderer
+  attr_accessor :node_color, :s_color
+
   def calculate_nodes_coordinates
     @nodes_coordinates = {}
     @nodes.each do |node|
@@ -17,13 +19,15 @@ class GraphRenderer
     @radius = radius
     @node_radius = 10
     @visited_nodes = Set.new
-
+    @node_color = 'blue'
+    @s_color = 'red'
     setup_canvas
     calculate_nodes_coordinates
   end
 
   def render(adjacency_list)
     @adjacency_list = adjacency_list
+    @visited_nodes = Set.new
     # @nodes = adjacency_list.keys
     @nodes.each do |node|
       # Skip already visited nodes to prevent duplicate lines
@@ -62,7 +66,7 @@ class GraphRenderer
   end
 
   def draw_node(node)
-    @svg.circle(cx: @nodes_coordinates[node.name][0], cy: @nodes_coordinates[node.name][1], r: @node_radius, fill: 'blue')
+    @svg.circle(cx: @nodes_coordinates[node.name][0], cy: @nodes_coordinates[node.name][1], r: @node_radius, fill: node_color)
   end
 
   def draw_edges(node)
@@ -72,12 +76,18 @@ class GraphRenderer
     @visited_nodes.each do |visited_node|
       next if visited_node == node
 
-      next unless @adjacency_list[node].include?(visited_node)
+      next unless @adjacency_list[node]&.include?(visited_node)
 
       visited_index = @nodes.index(visited_node)
       adjacent_x, adjacent_y = calculate_node_coordinates(visited_index * angle_between_nodes)
 
-      @svg.line(x1: node_x, y1: node_y, x2: adjacent_x, y2: adjacent_y, stroke: 'red', 'stroke-width': 1)
+      @svg.line(x1: node_x, y1: node_y, x2: adjacent_x, y2: adjacent_y, stroke: s_color, 'stroke-width': 1)
     end
+  end
+
+  def add_render(adjacency_list, node_color, s_color)
+    @node_color = node_color
+    @s_color = s_color
+    render(adjacency_list)
   end
 end

@@ -25,9 +25,12 @@ class GraphUtils
     new_graph
   end
 
-  def self.render_graphs(filename, center, radius, graphs)
-    renderer = GraphRenderer.new(center, radius)
-
+  def self.render_graphs(filename, graphs)
+    renderer = graphs[0][0].renderer
+    graphs.each do |graph|
+      renderer.add_render(graph[0].adjacency_list, graph[1], graph[2])
+    end
+    renderer.save(filename)
   end
 
   def self.populate_graph(main_graph, new_graph, sub_graph)

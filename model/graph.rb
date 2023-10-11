@@ -7,7 +7,7 @@ require 'set'
 require 'victor'
 
 class Graph
-  attr_reader :adjacency_list, :nodes_pool
+  attr_reader :adjacency_list, :nodes_pool, :renderer
 
   def initialize
     @adjacency_list = {}
@@ -15,7 +15,7 @@ class Graph
   end
 
   def layout_circular(center, radius)
-    @renderer = GraphRenderer.new(center, radius)
+    @renderer = GraphRenderer.new(center, radius, nodes)
   end
 
   def add_node(node)
