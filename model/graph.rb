@@ -125,7 +125,7 @@ class Graph
   end
 
   def render(filename, center, radius)
-    graph_renderer = GraphRenderer.new(center, radius, adjacency_list)
+    graph_renderer = GraphRenderer.new(center, radius, @adjacency_list)
     graph_renderer.render(filename)
   end
 end
