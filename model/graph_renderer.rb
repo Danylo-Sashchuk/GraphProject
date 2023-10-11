@@ -3,18 +3,28 @@
 require 'victor'
 
 class GraphRenderer
-  def initialize(center, radius, adjacency_list)
-    @nodes = adjacency_list.keys
-    @adjacency_list = adjacency_list
+  def calculate_nodes_coordinates
+    @nodes_coordinates = {}
+    @nodes.each do |node|
+      angle = @nodes.index(node) * angle_between_nodes
+      @nodes_coordinates[node.name] = calculate_node_coordinates(angle)
+    end
+  end
+
+  def initialize(center, radius, nodes)
+    @nodes = nodes
     @center = center
     @radius = radius
     @node_radius = 10
     @visited_nodes = Set.new
+
+    setup_canvas
+    calculate_nodes_coordinates
   end
 
-  def render
-    setup_canvas
-
+  def render(adjacency_list)
+    @adjacency_list = adjacency_list
+    # @nodes = adjacency_list.keys
     @nodes.each do |node|
       # Skip already visited nodes to prevent duplicate lines
       next if @visited_nodes.include?(node)
@@ -52,14 +62,7 @@ class GraphRenderer
   end
 
   def draw_node(node)
-    angle = @nodes.index(node) * angle_between_nodes
-    node_x, node_y = calculate_node_coordinates(angle)
-
-    # Skip the node if this node should not be visible
-    is_visible = node.instance_variable_get(:@visible)
-    return if !is_visible.nil? && (is_visible == false)
-
-    @svg.circle(cx: node_x, cy: node_y, r: @node_radius, fill: 'blue')
+    @svg.circle(cx: @nodes_coordinates[node.name][0], cy: @nodes_coordinates[node.name][1], r: @node_radius, fill: 'blue')
   end
 
   def draw_edges(node)

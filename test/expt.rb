@@ -6,3 +6,4 @@ require 'victor'
 graph = GraphUtils.genCompleteGraph(10, 0.2)
 dfs = GraphUtils.dfs(graph, :v3)
 sub_graph = GraphUtils.genSubGraph(graph, dfs)
+sub_graph.render('smth', [400, 400], 200)

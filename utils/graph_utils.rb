@@ -30,14 +30,10 @@ class GraphUtils
 
   end
 
-  private_class_method :populate_graph, :add_neighbors, :set_visibility,
-                       :node_was_added?, :node_in_sub_graph?, :dfs_rec
-
   def self.populate_graph(main_graph, new_graph, sub_graph)
-    main_graph.nodes.each do |node|
-      new_node = Node.new(node.name)
+    sub_graph.each do |node|
+      new_node = Node.new(node)
       new_graph.add_node(new_node)
-      set_visibility(new_node, sub_graph.include?(node.name))
       add_neighbors(main_graph, new_graph, new_node, sub_graph)
     end
   end
@@ -49,10 +45,6 @@ class GraphUtils
         new_graph.add_edge(node, neighbor)
       end
     end
-  end
-
-  def self.set_visibility(node, value)
-    node.instance_variable_set(:@visible, value)
   end
 
   def self.node_was_added?(neighbor, new_graph)
@@ -73,4 +65,7 @@ class GraphUtils
       dfs_rec(neighbor, visited, adj_list)
     end
   end
+
+  private_class_method :populate_graph, :add_neighbors,
+                       :node_was_added?, :node_in_sub_graph?, :dfs_rec
 end
