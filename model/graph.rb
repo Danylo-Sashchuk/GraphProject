@@ -7,7 +7,7 @@ require 'set'
 require 'victor'
 
 class Graph
-  attr_reader :adjacency_list
+  attr_reader :adjacency_list, :nodes_pool
 
   def initialize
     @adjacency_list = {}
@@ -27,11 +27,11 @@ class Graph
     exception_occurred = false
     nodes.flatten.each do |node|
       node = Node.ensure_node(node)
-      next unless !@nodes_pool.key?(node.name) && !processed_nodes.add?(node)
-
-      print("Node #{node} is already in the graph. Rollback the nodes.")
-      exception_occurred = true
-      break
+      if @nodes_pool.key?(node.name) || processed_nodes.add?(node) == nil
+        print("Node #{node} is already in the graph. Rollback the nodes.")
+        exception_occurred = true
+        break
+      end
     end
     processed_nodes.each { |node| add_node(node) } unless exception_occurred
   end
@@ -50,11 +50,11 @@ class Graph
   end
 
   def check_edge_constraints(node_a, node_b)
-    raise GraphException, 'One of the nodes does not belong to the graph.' if node_a.nil? || node_b.nil?
+    raise GraphException, "One of the nodes does not belong to the graph.\n" if node_a.nil? || node_b.nil?
 
-    raise GraphException, "Cannot add an edge between the same node #{node_a}." if node_a == node_b
+    raise GraphException, "Cannot add an edge between the same node #{node_a}.\n" if node_a == node_b
 
-    raise GraphException, "Edge between #{node_a} and #{node_b} already exist." if edge_exists?(node_a, node_b)
+    raise GraphException, "Edge between #{node_a} and #{node_b} already exist.\n" if edge_exists?(node_a, node_b)
   end
 
   def add_edge(node_a, node_b)

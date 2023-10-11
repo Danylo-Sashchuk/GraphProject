@@ -16,7 +16,8 @@ class GraphRenderer
     setup_canvas
 
     @nodes.each do |node|
-      next if @visited_nodes.include?(node) # Skip already visited nodes to prevent duplicate lines
+      # Skip already visited nodes to prevent duplicate lines
+      next if @visited_nodes.include?(node)
 
       draw_node(node)
       draw_edges(node)
@@ -51,6 +52,11 @@ class GraphRenderer
   def draw_node(node)
     angle = @nodes.index(node) * angle_between_nodes
     node_x, node_y = calculate_node_coordinates(angle)
+
+    # Skip the node if this node should not be visible
+    is_visible = node.instance_variable_get(:@visible)
+    return if !is_visible.nil? && (is_visible == false)
+
     @svg.circle(cx: node_x, cy: node_y, r: @node_radius, fill: 'blue')
   end
 

@@ -16,8 +16,36 @@ class GraphUtils
     visited = {}
     node = Node.ensure_node(node)
     dfs_rec(node, visited, graph.adjacency_list)
-    visited.keys.to_a.map(&:name)
+    visited.keys.map(&:name)
   end
+
+  def self.genSubGraph(main_graph, sub_graph)
+    new_nodes_objects = []
+    main_graph.nodes.each { |node| new_nodes_objects << Node.new(node.name) }
+
+    new_graph = Graph.new
+    new_graph.add_nodes(new_nodes_objects)
+
+    sub_set = Set.new(sub_graph)
+
+    new_graph.nodes_pool.each do |name, node|
+      if sub_set.include?(name)
+        node.instance_variable_set(:@visible, true)
+        neighbors = main_graph.adjacency_list[node] || []
+        neighbors.each do |neighbor|
+          next if new_graph.edge_exists?(node, neighbor)
+
+          new_graph.add_edge(node, neighbor)
+        end
+      else
+        node.instance_variable_set(:@visible, false)
+      end
+    end
+
+    new_graph.render("in-vis", [400, 400], 200)
+  end
+
+  private
 
   def self.dfs_rec(node, visited, adj_list)
     return if visited[node]
@@ -28,6 +56,5 @@ class GraphUtils
     neighbors.each do |neighbor|
       dfs_rec(neighbor, visited, adj_list)
     end
-
   end
 end
