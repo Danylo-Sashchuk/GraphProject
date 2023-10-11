@@ -20,25 +20,22 @@ class GraphUtils
   end
 
   def self.genSubGraph(main_graph, sub_graph)
-    new_nodes_objects = []
-    main_graph.nodes.each { |node| new_nodes_objects << Node.new(node.name) }
-
     new_graph = Graph.new
-    new_graph.add_nodes(new_nodes_objects)
 
-    sub_set = Set.new(sub_graph)
+    main_graph.nodes.each do |node|
+      new_node = Node.new(node.name)
+      new_graph.add_node(new_node)
 
-    new_graph.nodes_pool.each do |name, node|
-      if sub_set.include?(name)
-        node.instance_variable_set(:@visible, true)
+      if sub_graph.include?(node.name)
+        new_node.instance_variable_set(:@visible, true)
         neighbors = main_graph.adjacency_list[node] || []
         neighbors.each do |neighbor|
-          next if new_graph.edge_exists?(node, neighbor)
-
-          new_graph.add_edge(node, neighbor)
+          if sub_graph.include?(neighbor.name) && new_graph.nodes_pool.include?(neighbor.name)
+            new_graph.add_edge(new_node, neighbor)
+          end
         end
       else
-        node.instance_variable_set(:@visible, false)
+        new_node.instance_variable_set(:@visible, false)
       end
     end
 
