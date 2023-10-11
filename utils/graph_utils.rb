@@ -26,7 +26,7 @@ class GraphUtils
   end
 
   def self.render_graphs(filename, graphs)
-    renderer = graphs[0][0].renderer
+    renderer = Graph.renderer
     graphs.each do |graph|
       renderer.add_render(graph[0].adjacency_list, graph[1], graph[2])
     end

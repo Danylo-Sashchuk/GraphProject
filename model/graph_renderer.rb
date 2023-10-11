@@ -29,7 +29,7 @@ class GraphRenderer
     @adjacency_list = adjacency_list
     @visited_nodes = Set.new
     # @nodes = adjacency_list.keys
-    @adjacency_list.keys.each do |node|
+    @adjacency_list.each_key do |node|
       # Skip already visited nodes to prevent duplicate lines
       next if @visited_nodes.include?(node)
 
