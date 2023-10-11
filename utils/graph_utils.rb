@@ -25,6 +25,11 @@ class GraphUtils
     new_graph
   end
 
+  def self.render_graphs(filename, center, radius, graphs)
+    renderer = GraphRenderer.new(center, radius)
+
+  end
+
   private_class_method :populate_graph, :add_neighbors, :set_visibility,
                        :node_was_added?, :node_in_sub_graph?, :dfs_rec
 

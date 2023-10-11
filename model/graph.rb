@@ -14,6 +14,10 @@ class Graph
     @nodes_pool = {}
   end
 
+  def layout_circular(center, radius)
+    @renderer = GraphRenderer.new(center, radius)
+  end
+
   def add_node(node)
     node = Node.ensure_node(node)
     raise ArgumentError, "Node #{node} is already in the graph" if @adjacency_list.key?(node)
@@ -126,6 +130,7 @@ class Graph
 
   def render(filename, center, radius)
     graph_renderer = GraphRenderer.new(center, radius, @adjacency_list)
-    graph_renderer.render(filename)
+    graph_renderer.render
+    graph_renderer.save(filename)
   end
 end

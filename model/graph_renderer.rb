@@ -12,7 +12,7 @@ class GraphRenderer
     @visited_nodes = Set.new
   end
 
-  def render(filename)
+  def render
     setup_canvas
 
     @nodes.each do |node|
@@ -23,7 +23,9 @@ class GraphRenderer
       draw_edges(node)
       @visited_nodes << node
     end
+  end
 
+  def save(filename)
     @svg.save("output/#{filename}")
   end
 
