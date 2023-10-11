@@ -12,9 +12,9 @@ ns = GraphUtils.dfs c24, :v0
 
 c24v0 = GraphUtils.genSubGraph c24, ns
 
-print (c24v0)
-puts
 print c24
+puts
+print (c24v0)
 
 GraphUtils.render_graphs 'c24v0.svg', [[c24, 'green', 'blue'], [c24v0, 'red', 'red']]
 
