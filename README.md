@@ -1,6 +1,6 @@
 # Graph Project
 
-A simple Ruby project for working with graphs.
+A Ruby project for graph visualizations and working with them.
 
 ## Table of Contents
 
