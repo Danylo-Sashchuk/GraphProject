@@ -45,10 +45,10 @@ main_graph.layout_circular([400, 400], 200)
 
 GraphUtils.render_graphs('main_graph', [[main_graph, 'yellow', 'brown']])
 GraphUtils.render_graphs('sub_graph_v1', [[sub_graph_v1, 'green', 'blue']])
+GraphUtils.render_graphs('sub_graph_v2', [[sub_graph_v2, 'pink', 'blue']])
+
 
 GraphUtils.render_graphs('sub_graph_v1_on_main', [[main_graph, 'red', 'red'], [sub_graph_v1, 'green', 'blue']])
-
-GraphUtils.render_graphs('sub_graph_v2', [[sub_graph_v2, 'pink', 'blue']])
 GraphUtils.render_graphs('2_sub_graphs_on_main', [[main_graph, 'red', 'red'], [sub_graph_v1, 'green', 'blue'], [sub_graph_v2, 'purple', 'yellow']])
 print("#{sub_graph_v1}\n")
 print("#{sub_graph_v2}\n")
