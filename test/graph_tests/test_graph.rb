@@ -109,18 +109,12 @@ class TestGraph < Minitest::Unit::TestCase
     @graph.add_nodes(a, b)
     @graph.add_edge(b, a)
 
-    captured_output = capture_io do
-      @graph.add_edge(a, b)
-    end
-    assert_match('Edge between a and b already exists.', captured_output.join)
+    assert_raises(GraphException) { @graph.add_edge(a, b) }
   end
 
   def test_edge_between_same_node
     @graph.add_nodes(:a, :b)
-    captured_output = capture_io do
-      @graph.add_edge(:a, :a)
-    end
-    assert_match('Cannot add an edge between the same node a.', captured_output.join)
+    assert_raises(GraphException) { @graph.add_edge(:a, :a) }
   end
 
   def check_state(args = {})

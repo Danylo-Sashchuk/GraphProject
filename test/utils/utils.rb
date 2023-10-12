@@ -50,4 +50,14 @@ class Utils
     graph_edges = args[:graph]&.edges || []
     arrays_of_arrays_equal_disregard_order(expected_edges, graph_edges)
   end
+
+  def self.svg_files_equal?(file1_path, file2_path)
+    svg1 = File.read(file1_path)
+    svg2 = File.read(file2_path)
+
+    svg1 = svg1.gsub(/\s+/, ' ').strip
+    svg2 = svg2.gsub(/\s+/, ' ').strip
+
+    svg1 == svg2
+  end
 end

@@ -33,17 +33,13 @@ class Graph
 
   def add_nodes(*nodes)
     processed_nodes = Set.new
-    begin
-      nodes.flatten.each do |node|
-        node = Node.ensure_node(node)
-        if @nodes_pool.key?(node.name) || processed_nodes.add?(node) == nil
-          raise GraphException, "Node #{node} is already in the graph."
-        end
+    nodes.flatten.each do |node|
+      node = Node.ensure_node(node)
+      if @nodes_pool.key?(node.name) || processed_nodes.add?(node).nil?
+        raise GraphException, "Node #{node} is already in the graph. Rollback the graph.\n"
       end
-      processed_nodes.each { |node| add_node(node) }
-    rescue StandardError => e
-      print("#{e.message} Rollback the graph.\n")
     end
+    processed_nodes.each { |node| add_node(node) }
   end
 
   def nodes_str
@@ -74,13 +70,9 @@ class Graph
     node_a = @nodes_pool[node_a.name]
     node_b = @nodes_pool[node_b.name]
 
-    begin
-      check_edge_constraints(node_a, node_b)
-      @adjacency_list[node_a] << node_b
-      @adjacency_list[node_b] << node_a
-    rescue GraphException => e
-      print(e.message)
-    end
+    check_edge_constraints(node_a, node_b)
+    @adjacency_list[node_a] << node_b
+    @adjacency_list[node_b] << node_a
   end
 
   def edge_exists?(node_a, node_b)
@@ -134,9 +126,9 @@ class Graph
     set
   end
 
-  def render(filename, center, radius)
+  def render(filename, center, radius, folder = 'output')
     graph_renderer = GraphRenderer.new(center, radius, nodes)
     graph_renderer.render(@adjacency_list)
-    graph_renderer.save(filename)
+    graph_renderer.save(filename, folder)
   end
 end

@@ -16,28 +16,19 @@ class TestGraphEdges < TestGraph
   end
 
   def test_add_edge1
-    captured_output = capture_io do
-      @graph.add_edge(:a, :a)
-    end
-    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
+    assert_raises(GraphException) { @graph.add_edge(:a, :a) }
     check_state
   end
 
   def test_add_edge2
     @graph.add_node(:a)
-    captured_output = capture_io do
-      @graph.add_edge(:a, :b)
-    end
-    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
+    assert_raises(GraphException) { @graph.add_edge(:a, :b) }
     check_state({ nodes: [:a], nodes_nbr: 1 })
   end
 
   def test_add_edge3
     @graph.add_node(:b)
-    captured_output = capture_io do
-      @graph.add_edge(:a, :b)
-    end
-    assert_match('One of the nodes does not belong to the graph.', captured_output.join)
+    assert_raises(GraphException) { @graph.add_edge(:a, :b) }
     check_state({ nodes: [:b], nodes_nbr: 1 })
   end
 
